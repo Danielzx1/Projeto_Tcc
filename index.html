@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroGen Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fa-solid fa-droplet logo-pulse"></i>
+                <h1>HYDRO<strong>GEN</strong></h1>
+                <p>Acesse o painel de controle</p>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="E-mail" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="login-pass" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="auth-btn">Entrar</button>
+                <p class="switch-auth">Não tem conta? <a href="#" id="link-register">Criar agora</a></p>
+            </form>
+
+            <form id="register-form" class="auth-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="reg-name" placeholder="Nome Completo" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="E-mail" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="reg-pass" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="auth-btn btn-outline">Cadastrar</button>
+                <p class="switch-auth">Já possui conta? <a href="#" id="link-login">Fazer Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-droplet"></i>
+                <span>HYDRO<strong>GEN</strong></span>
+            </div>
+            
+            <nav class="menu">
+                <a href="#" class="menu-item active" data-target="view-dashboard">
+                    <i class="fa-solid fa-gauge"></i> Dashboard
+                </a>
+                <a href="#" class="menu-item" data-target="view-stats">
+                    <i class="fa-solid fa-chart-line"></i> Estatísticas
+                </a>
+                <a href="#" class="menu-item" data-target="view-schedule">
+                    <i class="fa-solid fa-calendar-days"></i> Agendamento
+                </a>
+                <a href="#" class="menu-item" data-target="view-settings">
+                    <i class="fa-solid fa-gears"></i> Ajustes
+                </a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar">U</div>
+                <div class="user-info">
+                    <span id="sidebar-username">Usuário</span>
+                    <small id="connection-label">Offline</small>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <section id="view-dashboard" class="view-section active">
+                <header class="top-header">
+                    <div>
+                        <h1>Painel de Controle</h1>
+                        <p>Monitorização de extração em tempo real</p>
+                    </div>
+                    <div class="bt-pill" id="btn-bluetooth">
+                        <i class="fa-brands fa-bluetooth-b"></i>
+                        <span id="bt-status">Bluetooth Desconectado</span>
+                        <div id="bt-indicator" class="dot"></div>
+                    </div>
+                </header>
+
+                <div class="dashboard-grid">
+                    <div class="card power-card" id="card-power">
+                        <div class="power-ring">
+                            <button id="btn-power">
+                                <i class="fa-solid fa-power-off"></i>
+                            </button>
+                        </div>
+                        <h2 id="sys-status-text">SISTEMA OFF</h2>
+                    </div>
+
+                    <div class="card fan-card disabled" id="card-fan">
+                        <div class="card-header">
+                            <i class="fa-solid fa-fan" id="fan-icon"></i>
+                            <span>Ventilação <strong id="rpm-display">0 RPM</strong></span>
+                        </div>
+                        <div class="speed-selector">
+                            <button class="s-btn" data-speed="1">1</button>
+                            <button class="s-btn" data-speed="2">2</button>
+                            <button class="s-btn active" data-speed="3">3</button>
+                            <button class="s-btn" data-speed="4">4</button>
+                            <button class="s-btn" data-speed="5">5</button>
+                        </div>
+                        <p class="stats-label">Consumo: <span id="watt-usage">0W</span></p>
+                    </div>
+
+                    <div class="card battery-card">
+                        <div class="card-header"><i class="fa-solid fa-bolt"></i> <span>Energia</span></div>
+                        <div class="progress-bg"><div class="progress-fill" id="battery-fill" style="width: 85%;"></div></div>
+                        <h2 id="battery-text">85%</h2>
+                    </div>
+
+                    <div class="card water-card">
+                        <div class="card-header"><i class="fa-solid fa-faucet-droplet"></i> <span>Reservatório</span></div>
+                        <div class="tank-wrapper">
+                            <div class="tank-visual">
+                                <div class="water-level" id="water-level-el" style="height: 35%;">
+                                    <div class="wave"></div>
+                                </div>
+                            </div>
+                            <div class="tank-info">
+                                <h2 id="water-percent">35%</h2>
+                                <p id="water-volume">1050 ml</p>
+                                <small id="temp-fill" style="color:#6b6b7a">Conecte o sistema</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-stats" class="view-section">
+                <header class="top-header"><h1>Previsão & Eficiência</h1></header>
+                <div class="card full-width">
+                    <h3>Previsão Semanal (Aracaju)</h3>
+                    <div class="forecast-list" id="forecast-container"></div>
+                </div>
+            </section>
+
+            <section id="view-schedule" class="view-section">
+                <header class="top-header"><h1>Agendamento Inteligente</h1></header>
+                <div class="card">
+                    <h3>Tarefas Automáticas</h3>
+                    <div class="schedule-list" id="schedule-container"></div>
+                </div>
+            </section>
+
+            <section id="view-settings" class="view-section">
+                <header class="top-header"><h1>Ajustes</h1></header>
+                <div class="card">
+                    <p>Logado como: <strong id="settings-email">...</strong></p>
+                    <button class="s-btn" style="width: 100%; background: #e74c3c; margin-top: 20px;" id="btn-logout">
+                        Sair do Sistema
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
