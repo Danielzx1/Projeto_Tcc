@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    /* TEMA ESCURO (Padrão) */
+    --bg-dark: #050507;
+    --bg-sidebar: #000000;    /* Sidebar preta */
+    --bg-card: #14141a;
+    --bg-element: #000000;    /* Fundo de inputs/items */
+    
+    --primary: #7b61ff;
+    --success: #00e05e;
+    --text: #ffffff;
+    --text-dim: #6b6b7a;
+    --border: rgba(255, 255, 255, 0.08);
+    --input-bg: #0a0a0c;
+}
+
+/* TEMA CLARO */
+body.light-mode {
+    --bg-dark: #f0f2f5;       /* Fundo da página cinza gelo */
+    --bg-sidebar: #ffffff;    /* Sidebar branca */
+    --bg-card: #ffffff;       /* Card branco */
+    --bg-element: #f7f9fc;    /* Elementos cinza clarinho */
+    
+    --text: #1a1a1a;          /* Texto escuro */
+    --text-dim: #666666;
+    --border: rgba(0, 0, 0, 0.1);
+    --input-bg: #f0f2f5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+body { background: var(--bg-dark); color: var(--text); height: 100vh; overflow: hidden; transition: background 0.3s, color 0.3s; }

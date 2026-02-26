@@ -4,47 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HydroGen Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+
+    <div id="lgpd-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Termos de Uso & Privacidade</h2>
+            <p><strong>1. Coleta de Dados:</strong> O HydroGen Pro coleta apenas seu nome, e-mail e dados de simulação para funcionamento do sistema.</p>
+            <p><strong>2. Uso de Dados:</strong> Seus dados são utilizados exclusivamente para autenticação e personalização do dashboard.</p>
+            <p><strong>3. Armazenamento:</strong> Utilizamos o Google Firebase para armazenar suas informações de forma segura e criptografada.</p>
+            <p><strong>4. Consentimento:</strong> Ao se cadastrar, você concorda com o processamento destes dados conforme a Lei Geral de Proteção de Dados (LGPD).</p>
+            <button class="auth-btn modal-close-btn" id="close-lgpd">Entendi</button>
+        </div>
+    </div>
 
     <div id="auth-overlay" class="auth-overlay">
         <div class="auth-card">
             <div class="auth-header">
                 <i class="fa-solid fa-droplet logo-pulse"></i>
                 <h1>HYDRO<strong>GEN</strong></h1>
-                <p>Acesse o painel de controle</p>
+                <p>Cloud System</p>
             </div>
-
             <form id="login-form" class="auth-form active">
-                <div class="input-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="login-email" placeholder="E-mail" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="login-pass" placeholder="Senha" required>
-                </div>
+                <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="login-email" placeholder="E-mail" required></div>
+                <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="login-pass" placeholder="Senha" required></div>
                 <button type="submit" class="auth-btn">Entrar</button>
-                <p class="switch-auth">Não tem conta? <a href="#" id="link-register">Criar agora</a></p>
+                <p class="switch-auth">Não tem conta? <a href="#" id="link-register">Criar conta</a></p>
             </form>
-
             <form id="register-form" class="auth-form">
-                <div class="input-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="reg-name" placeholder="Nome Completo" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="reg-email" placeholder="E-mail" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="reg-pass" placeholder="Senha" required>
+                <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" id="reg-name" placeholder="Nome Completo" required></div>
+                <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="reg-email" placeholder="E-mail" required></div>
+                <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="reg-pass" placeholder="Senha" required></div>
+                <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="reg-confirm-pass" placeholder="Confirmar Senha" required></div>
+                <div class="lgpd-container">
+                    <input type="checkbox" id="lgpd-check" required>
+                    <label for="lgpd-check">Li e aceito os <span id="open-lgpd" class="lgpd-link">Termos de Uso</span></label>
                 </div>
                 <button type="submit" class="auth-btn btn-outline">Cadastrar</button>
-                <p class="switch-auth">Já possui conta? <a href="#" id="link-login">Fazer Login</a></p>
+                <p class="switch-auth">Já tem conta? <a href="#" id="link-login">Fazer Login</a></p>
             </form>
         </div>
     </div>
@@ -52,127 +52,111 @@
     <div class="layout-wrapper">
         <aside class="sidebar">
             <div class="brand">
-                <i class="fa-solid fa-droplet"></i>
-                <span>HYDRO<strong>GEN</strong></span>
+                <i class="fa-solid fa-droplet"></i> <span>HYDRO<strong>GEN</strong></span>
             </div>
-            
             <nav class="menu">
-                <a href="#" class="menu-item active" data-target="view-dashboard">
-                    <i class="fa-solid fa-gauge"></i> Dashboard
-                </a>
-                <a href="#" class="menu-item" data-target="view-stats">
-                    <i class="fa-solid fa-chart-line"></i> Estatísticas
-                </a>
-                <a href="#" class="menu-item" data-target="view-schedule">
-                    <i class="fa-solid fa-calendar-days"></i> Agendamento
-                </a>
-                <a href="#" class="menu-item" data-target="view-settings">
-                    <i class="fa-solid fa-gears"></i> Ajustes
-                </a>
+                <a href="#" class="menu-item active" data-target="view-dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="#" class="menu-item" data-target="view-stats"><i class="fa-solid fa-chart-line"></i> Estatísticas</a>
+                <a href="#" class="menu-item" data-target="view-schedule"><i class="fa-solid fa-calendar-days"></i> Agendamento</a>
+                <a href="#" class="menu-item" data-target="view-settings"><i class="fa-solid fa-gears"></i> Ajustes</a>
             </nav>
-
             <div class="user-profile">
                 <div class="avatar">U</div>
                 <div class="user-info">
-                    <span id="sidebar-username">Usuário</span>
-                    <small id="connection-label">Offline</small>
+                    <span id="sidebar-username">...</span>
+                    <small id="connection-status">Conectando...</small>
                 </div>
             </div>
         </aside>
 
         <main class="main-content">
-            
             <section id="view-dashboard" class="view-section active">
                 <header class="top-header">
-                    <div>
-                        <h1>Painel de Controle</h1>
-                        <p>Monitorização de extração em tempo real</p>
-                    </div>
-                    <div class="bt-pill" id="btn-bluetooth">
-                        <i class="fa-brands fa-bluetooth-b"></i>
-                        <span id="bt-status">Bluetooth Desconectado</span>
-                        <div id="bt-indicator" class="dot"></div>
-                    </div>
+                    <div><h1>Painel Cloud</h1><p>Monitorização em Tempo Real</p></div>
+                    <div class="bt-pill" id="btn-bluetooth"><i class="fa-brands fa-bluetooth-b"></i><span id="bt-status">Bluetooth Off</span><div id="bt-indicator" class="dot"></div></div>
                 </header>
-
                 <div class="dashboard-grid">
-                    <div class="card power-card" id="card-power">
-                        <div class="power-ring">
-                            <button id="btn-power">
-                                <i class="fa-solid fa-power-off"></i>
-                            </button>
-                        </div>
-                        <h2 id="sys-status-text">SISTEMA OFF</h2>
-                    </div>
-
-                    <div class="card fan-card disabled" id="card-fan">
-                        <div class="card-header">
-                            <i class="fa-solid fa-fan" id="fan-icon"></i>
-                            <span>Ventilação <strong id="rpm-display">0 RPM</strong></span>
-                        </div>
-                        <div class="speed-selector">
-                            <button class="s-btn" data-speed="1">1</button>
-                            <button class="s-btn" data-speed="2">2</button>
-                            <button class="s-btn active" data-speed="3">3</button>
-                            <button class="s-btn" data-speed="4">4</button>
-                            <button class="s-btn" data-speed="5">5</button>
-                        </div>
-                        <p class="stats-label">Consumo: <span id="watt-usage">0W</span></p>
-                    </div>
-
-                    <div class="card battery-card">
-                        <div class="card-header"><i class="fa-solid fa-bolt"></i> <span>Energia</span></div>
-                        <div class="progress-bg"><div class="progress-fill" id="battery-fill" style="width: 85%;"></div></div>
-                        <h2 id="battery-text">85%</h2>
-                    </div>
-
-                    <div class="card water-card">
-                        <div class="card-header"><i class="fa-solid fa-faucet-droplet"></i> <span>Reservatório</span></div>
-                        <div class="tank-wrapper">
-                            <div class="tank-visual">
-                                <div class="water-level" id="water-level-el" style="height: 35%;">
-                                    <div class="wave"></div>
-                                </div>
-                            </div>
-                            <div class="tank-info">
-                                <h2 id="water-percent">35%</h2>
-                                <p id="water-volume">1050 ml</p>
-                                <small id="temp-fill" style="color:#6b6b7a">Conecte o sistema</small>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card power-card" id="card-power"><div class="power-ring"><button id="btn-power"><i class="fa-solid fa-power-off"></i></button></div><h2 id="sys-status-text">OFF</h2></div>
+                    <div class="card fan-card disabled" id="card-fan"><div class="card-header"><i class="fa-solid fa-fan" id="fan-icon"></i> <span>Ventilação <strong id="rpm-display">0 RPM</strong></span></div>
+                        <div class="speed-selector"><button class="s-btn" data-speed="1">1</button><button class="s-btn" data-speed="2">2</button><button class="s-btn" data-speed="3">3</button><button class="s-btn" data-speed="4">4</button><button class="s-btn" data-speed="5">5</button></div><p>Consumo: <span id="watt-usage">0W</span></p></div>
+                    <div class="card battery-card"><div class="card-header"><i class="fa-solid fa-bolt"></i> <span>Bateria</span></div><div class="progress-bg"><div class="progress-fill" id="battery-fill" style="width: 0%;"></div></div><h2 id="battery-text">--%</h2></div>
+                    <div class="card water-card"><div class="card-header"><i class="fa-solid fa-faucet-droplet"></i> <span>Tanque</span></div><div class="tank-wrapper"><div class="tank-visual"><div class="water-level" id="water-level-el" style="height: 0%;"><div class="wave"></div></div></div><div class="tank-info"><h2 id="water-percent">0%</h2><p id="water-volume">0 ml</p><small id="temp-fill">Sincronizando...</small></div></div></div>
                 </div>
+                <button id="btn-reset-metrics" title="Reiniciar"><i class="fa-solid fa-rotate-right"></i></button>
             </section>
 
             <section id="view-stats" class="view-section">
-                <header class="top-header"><h1>Previsão & Eficiência</h1></header>
-                <div class="card full-width">
-                    <h3>Previsão Semanal (Aracaju)</h3>
-                    <div class="forecast-list" id="forecast-container"></div>
+                <header class="top-header"><h1>Análise</h1></header>
+                <div class="dashboard-grid">
+                    <div class="card" style="grid-column: span 2;"><h3>Performance</h3><div style="height: 300px; margin-top: 15px;"><canvas id="realtimeChart"></canvas></div></div>
+                    <div class="card full-width" style="grid-column: span 2;"><h3>Previsão Local</h3><div class="forecast-list" id="forecast-container"></div></div>
                 </div>
             </section>
 
             <section id="view-schedule" class="view-section">
                 <header class="top-header"><h1>Agendamento Inteligente</h1></header>
-                <div class="card">
-                    <h3>Tarefas Automáticas</h3>
-                    <div class="schedule-list" id="schedule-container"></div>
-                </div>
-            </section>
-
-            <section id="view-settings" class="view-section">
-                <header class="top-header"><h1>Ajustes</h1></header>
-                <div class="card">
-                    <p>Logado como: <strong id="settings-email">...</strong></p>
-                    <button class="s-btn" style="width: 100%; background: #e74c3c; margin-top: 20px;" id="btn-logout">
-                        Sair do Sistema
+                <div class="schedule-container-wrapper">
+                    <div id="schedule-container" class="schedule-grid">
+                        </div>
+                    <button id="btn-add-schedule" class="floating-add-btn">
+                        <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
             </section>
 
+            <section id="view-settings" class="view-section">
+                <header class="top-header"><h1>Configurações</h1></header>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Editar Perfil</h3><br>
+                        <div class="settings-form">
+                            <label>Nome</label><div class="input-group"><i class="fa-solid fa-user-pen"></i><input type="text" id="edit-name"></div>
+                            <label style="margin-top: 10px;">Foto</label><div class="input-group"><i class="fa-solid fa-image"></i><input type="text" id="edit-photo"></div>
+                            <button class="auth-btn" id="btn-save-profile" style="margin-top: 20px;">Salvar</button>
+                        </div>
+                        <hr style="border:0; border-top:1px solid var(--border); margin: 20px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <span><i class="fa-solid fa-moon"></i> Modo Escuro / Claro</span>
+                            <div class="toggle-switch active" id="btn-theme-toggle"></div>
+                        </div>
+                        <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="text" id="settings-email" disabled></div>
+                        <button class="auth-btn" style="background: #e74c3c; margin-top: 20px; width: 100%;" id="btn-logout">Sair</button>
+                    </div>
+                    <div class="card"><h3>Histórico</h3><div id="logs-container" class="logs-list"><small>Carregando...</small></div></div>
+                </div>
+            </section>
+
+            <div id="modal-new-schedule" class="modal-overlay">
+                <div class="modal-content clock-modal">
+                    <div class="modal-header-clean">
+                        <h3>Nova Automação</h3>
+                        <button id="close-schedule-modal"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="big-clock-wrapper">
+                        <div class="clock-column">
+                            <button class="clock-arrow" id="hour-up"><i class="fa-solid fa-chevron-up"></i></button>
+                            <span class="clock-number" id="display-hour">12</span>
+                            <button class="clock-arrow" id="hour-down"><i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                        <div class="clock-separator">:</div>
+                        <div class="clock-column">
+                            <button class="clock-arrow" id="min-up"><i class="fa-solid fa-chevron-up"></i></button>
+                            <span class="clock-number" id="display-min">00</span>
+                            <button class="clock-arrow" id="min-down"><i class="fa-solid fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="mode-toggle-wrapper">
+                        <div class="mode-option active-text" id="mode-eco">Econômico</div>
+                        <div class="toggle-track" id="new-task-mode">
+                            <div class="toggle-knob"></div>
+                        </div>
+                        <div class="mode-option" id="mode-turbo">Turbo</div>
+                    </div>
+                    <button id="btn-save-schedule" class="save-task-btn"><i class="fa-solid fa-check"></i> Salvar</button>
+                </div>
+            </div>
         </main>
     </div>
-
-    <script src="script.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
