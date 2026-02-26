@@ -3,7 +3,7 @@
 
 > Painel de controle web avançado para monitoramento, gestão e automação de sistemas de geração de hidrogênio em tempo real.
 
-<img width="1869" height="920" alt="preview" src="https://github.com/user-attachments/assets/e29cd50e-5ee7-4b0a-9a05-be704110772a" />
+https://github.com/Danielzx1/Projeto_Tcc/blob/cdcfaa694b65d3b02ce128f5cc19fae8ef17277e/assets/preview.png
 
 
 
@@ -101,3 +101,4 @@ Desenvolvido por **[Daniel Oliveira Silva]** 💻
 
 
 ```
+
