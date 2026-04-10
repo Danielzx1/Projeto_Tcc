@@ -30,3 +30,14 @@ body.light-mode {
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 body { background: var(--bg-dark); color: var(--text); height: 100vh; overflow: hidden; transition: background 0.3s, color 0.3s; }
+
+/* Quando o body tiver essa classe, tudo que usa var(--primary) fica azul claro */
+body.real-mode {
+    --primary: #00a8ff; /* Azul Claro (Estilo Bluetooth) */
+    --primary-glow: rgba(0, 168, 255, 0.4);
+}
+
+/* Transição suave para a mudança de cor não ser brusca */
+body {
+    transition: background 0.3s, color 0.3s, --primary 0.5s ease;
+}

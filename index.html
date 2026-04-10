@@ -7,6 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#050507">
+    <link rel="apple-touch-icon" href="images/icon-192.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
@@ -80,7 +84,7 @@
                     <div class="card fan-card disabled" id="card-fan"><div class="card-header"><i class="fa-solid fa-fan" id="fan-icon"></i> <span>Ventilação <strong id="rpm-display">0 RPM</strong></span></div>
                         <div class="speed-selector"><button class="s-btn" data-speed="1">1</button><button class="s-btn" data-speed="2">2</button><button class="s-btn" data-speed="3">3</button><button class="s-btn" data-speed="4">4</button><button class="s-btn" data-speed="5">5</button></div><p>Consumo: <span id="watt-usage">0W</span></p></div>
                     <div class="card battery-card"><div class="card-header"><i class="fa-solid fa-bolt"></i> <span>Bateria</span></div><div class="progress-bg"><div class="progress-fill" id="battery-fill" style="width: 0%;"></div></div><h2 id="battery-text">--%</h2></div>
-                    <div class="card water-card"><div class="card-header"><i class="fa-solid fa-faucet-droplet"></i> <span>Tanque</span></div><div class="tank-wrapper"><div class="tank-visual"><div class="water-level" id="water-level-el" style="height: 0%;"><div class="wave"></div></div></div><div class="tank-info"><h2 id="water-percent">0%</h2><p id="water-volume">0 ml</p><small id="temp-fill">Sincronizando...</small></div></div></div>
+                    <div class="card water-card"><div class="card-header"><i class="fa-solid fa-faucet-droplet"></i> <span>Tanque</span></div><div class="tank-wrapper"><div class="tank-visual"><div class="water-level" id="water-level-el" style="height: 0%;"><div class="wave"></div></div></div><div class="tank-info"><h2 id="water-percent">0%</h2><p id="water-volume">0 ml</p><small id="temp-fill">Aguardando Conexão...</small></div></div></div>
                 </div>
                 <button id="btn-reset-metrics" title="Reiniciar"><i class="fa-solid fa-rotate-right"></i></button>
             </section>
@@ -96,11 +100,8 @@
             <section id="view-schedule" class="view-section">
                 <header class="top-header"><h1>Agendamento Inteligente</h1></header>
                 <div class="schedule-container-wrapper">
-                    <div id="schedule-container" class="schedule-grid">
-                        </div>
-                    <button id="btn-add-schedule" class="floating-add-btn">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
+                    <div id="schedule-container" class="schedule-grid"></div>
+                    <button id="btn-add-schedule" class="floating-add-btn"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </section>
 
@@ -133,28 +134,32 @@
                         <button id="close-schedule-modal"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="big-clock-wrapper">
-                        <div class="clock-column">
-                            <button class="clock-arrow" id="hour-up"><i class="fa-solid fa-chevron-up"></i></button>
-                            <span class="clock-number" id="display-hour">12</span>
-                            <button class="clock-arrow" id="hour-down"><i class="fa-solid fa-chevron-down"></i></button>
-                        </div>
-                        <div class="clock-separator">:</div>
-                        <div class="clock-column">
-                            <button class="clock-arrow" id="min-up"><i class="fa-solid fa-chevron-up"></i></button>
-                            <span class="clock-number" id="display-min">00</span>
-                            <button class="clock-arrow" id="min-down"><i class="fa-solid fa-chevron-down"></i></button>
-                        </div>
+                        <div class="clock-column"><button class="clock-arrow" id="hour-up"><i class="fa-solid fa-chevron-up"></i></button><span class="clock-number" id="display-hour">12</span><button class="clock-arrow" id="hour-down"><i class="fa-solid fa-chevron-down"></i></button></div><div class="clock-separator">:</div><div class="clock-column"><button class="clock-arrow" id="min-up"><i class="fa-solid fa-chevron-up"></i></button><span class="clock-number" id="display-min">00</span><button class="clock-arrow" id="min-down"><i class="fa-solid fa-chevron-down"></i></button></div>
                     </div>
                     <div class="mode-toggle-wrapper">
-                        <div class="mode-option active-text" id="mode-eco">Econômico</div>
-                        <div class="toggle-track" id="new-task-mode">
-                            <div class="toggle-knob"></div>
-                        </div>
-                        <div class="mode-option" id="mode-turbo">Turbo</div>
+                        <div class="mode-option active-text" id="mode-eco">Econômico</div><div class="toggle-track" id="new-task-mode"><div class="toggle-knob"></div></div><div class="mode-option" id="mode-turbo">Turbo</div>
                     </div>
                     <button id="btn-save-schedule" class="save-task-btn"><i class="fa-solid fa-check"></i> Salvar</button>
                 </div>
             </div>
+
+            <div id="modal-bluetooth" class="modal-overlay">
+                <div class="modal-content clock-modal" style="text-align: center;">
+                    <div class="modal-header-clean">
+                        <h3><i class="fa-brands fa-bluetooth-b"></i> Conectar Hardware</h3>
+                        <button id="close-bt-modal"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="scanning-animation">
+                        <div class="radar"></div>
+                        <p id="radar-text" style="color: var(--text-dim);">Procurando dispositivos próximos...</p>
+                    </div>
+
+                    <ul class="device-list" id="bt-device-list">
+                        </ul>
+                </div>
+            </div>
+
         </main>
     </div>
     <script type="module" src="js/main.js"></script>
