@@ -48,7 +48,7 @@ class App {
         }
         this.loadWeather();
 
-        this.authService.onUserChange((user) => {
+this.authService.onUserChange((user) => {
             if (user) {
                 this.ui.toggleAuthScreen(false);
                 this.ui.updateConnectionStatus(true);
@@ -56,13 +56,17 @@ class App {
                 
                 // 🕵️ LÓGICA DE LOGS RESTRITA PARA DEV
                 const logsMenuBtn = document.querySelector('.menu-item[data-target="view-logs"]');
+                const cardHistorico = document.getElementById('card-historico'); // Pega a caixa inteira do histórico
+
                 if (user.email === this.DEV_EMAIL) {
-                    // É o Daniel! Mostra o menu de Logs e carrega os dados.
+                    // É o Daniel (Dev)! Mostra o menu, mostra a caixa e carrega os dados.
                     if (logsMenuBtn) logsMenuBtn.style.display = ''; 
+                    if (cardHistorico) cardHistorico.style.display = ''; 
                     this.loadLogs(user.uid);
                 } else {
-                    // Usuário comum! Esconde o menu de Logs.
+                    // Usuário comum (ex: Selma)! Esconde tudo relacionado a logs/histórico.
                     if (logsMenuBtn) logsMenuBtn.style.display = 'none';
+                    if (cardHistorico) cardHistorico.style.display = 'none';
                 }
 
             } else {
