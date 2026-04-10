@@ -1,0 +1,16 @@
+{
+  "name": "HydroGen Pro Cloud",
+  "short_name": "HydroGen",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0d12",
+  "theme_color": "#6c5ce7",
+  "description": "Painel IoT para monitoramento de hidrogênio",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
