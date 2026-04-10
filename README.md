@@ -1,105 +1,97 @@
-﻿```markdown
-# 💧 HydroGen Pro - IoT Cloud Dashboard
+﻿
+-----
 
-> Painel de controle web avançado para monitoramento, gestão e automação de sistemas de geração de hidrogênio em tempo real.
+````markdown
+# 💧 HydroGen Pro - IoT Cloud Dashboard ⚡
 
-![Preview do Projeto](assets/preview.png)
+> Painel de controle web avançado (PWA) para monitoramento térmico, gestão e automação de sistemas físicos via Bluetooth Low Energy (BLE) e nuvem em tempo real.
 
-
+![Preview do Projeto](./assets/preview.png)
 
 ## 📋 Sobre o Projeto
 
-O **HydroGen Pro** é uma aplicação web (SPA) desenvolvida para simular e controlar uma estação de hidrogênio via IoT. O projeto utiliza uma arquitetura moderna baseada em **Módulos ES6** e **Programação Orientada a Objetos (POO)**, garantindo um código limpo, escalável e de fácil manutenção.
+O **HydroGen Pro** é uma aplicação web (SPA) desenvolvida para atuar como o "cérebro" de uma estação de hidrogênio e refrigeração. O projeto utiliza uma arquitetura moderna baseada em **Módulos ES6** e **Separação de Responsabilidades (MVC-like)**, garantindo escalabilidade e código limpo.
 
-O sistema conecta-se ao **Google Firebase** para sincronização de dados em tempo real entre múltiplos clientes e oferece ferramentas avançadas de análise e automação.
+O grande diferencial do sistema é sua **Conexão Híbrida**: ele atua tanto no **Modo Demo** (simulação matemática de consumo de Joules e recursos) quanto no **Modo Real**, conectando-se diretamente a microcontroladores físicos usando a Web Bluetooth API nativa do navegador, com sincronização em nuvem via Google Firebase.
 
-## 🚀 Funcionalidades Implementadas
+## 🚀 Funcionalidades Principais
+
+### 📡 IoT & Comunicação
+* **Web Bluetooth API:** Pareamento direto pelo navegador com o hardware físico (ex: ESP32) sem necessidade de aplicativos de terceiros.
+* **Modo Híbrido:** Transição fluida entre simulação local (Modo Demo) e leitura de sensores físicos (Modo Real).
 
 ### 📊 Monitoramento & Analytics
-* **Sincronização em Tempo Real:** Status (Ligado/Desligado), Velocidade, Bateria e Nível de Água atualizados instantaneamente via Firebase Realtime Database.
-* **Gráficos Dinâmicos:** Integração com **Chart.js** para visualização da performance do sistema (Bateria vs Água) minuto a minuto.
-* **Simulação Física:** Módulo matemático (`SystemPhysics.js`) que calcula o consumo de recursos baseado na rotação (RPM) e tempo de uso.
+* **Telemetria em Tempo Real:** Status, Consumo (Watts), Rotação (RPM) e Nível de Água atualizados instantaneamente via Firebase Realtime Database.
+* **Gráficos Dinâmicos:** Integração com **Chart.js** para visualização da performance do sistema minuto a minuto.
+* **Motor Físico Interno:** Módulo matemático (`SystemPhysics.js`) que simula o consumo real de uma bateria de 120Wh e evaporação de água com precisão.
 
-### ⏰ Automação Inteligente
-* **Agendamento Visual:** Interface customizada (Modal estilo Relógio) para criação de tarefas automáticas.
-* **Modos de Operação:** Definição de horários para funcionamento em **Modo Econômico** (Verde) ou **Modo Turbo** (Vermelho).
-* **Previsão do Tempo:** Consumo da API **Open-Meteo** para exibir dados climáticos locais, auxiliando na decisão de operação.
+### ⏰ Automação Inteligente & Clima
+* **Agendamento Visual:** Interface customizada para criação de tarefas (Modo Econômico ou Turbo) executadas de forma autônoma.
+* **Integração Meteorológica:** Previsão do tempo local usando a API Open-Meteo, contando com fallback inteligente caso o GPS seja bloqueado (Tracking Prevention).
 
-### 🎨 Interface & Experiência (UI/UX)
-* **Temas Claro & Escuro:** Sistema de temas com persistência de preferência do usuário (salvo no LocalStorage).
-* **Design Responsivo:** Layout adaptável que funciona perfeitamente em Desktops (Sidebar) e Mobile (Menu Inferior).
-* **Glassmorphism:** Estilo visual moderno com transparências e blur.
+### 🎨 Interface & Segurança (UI/UX)
+* **Glassmorphism & Temas:** Estilo visual moderno com transparências, responsividade total e Temas Claro/Escuro (persistentes no LocalStorage).
+* **Progressive Web App (PWA):** Instalável no celular e desktop, rodando em tela cheia como um app nativo.
+* **Gestão de Acesso:** Login/Registro robusto (Firebase Auth), Modal de Compliance LGPD obrigatório e alertas nativos do navegador.
+* **Modo Desenvolvedor (Logs):** Histórico de auditoria interno oculto para usuários comuns, visível apenas para contas de administração.
 
-### 🛡️ Segurança & Gestão
-* **Autenticação Robusta:** Login e Registro com validação de senha e feedback visual.
-* **Compliance LGPD:** Modal de consentimento de uso de dados e Checkbox obrigatório no cadastro.
-* **Logs de Auditoria:** Histórico detalhado de todas as ações (quem ligou, quando alterou velocidade, reset de métricas).
-* **Notificações:** Alertas nativos do navegador quando a bateria atinge níveis críticos (< 20%).
+## 🧰 Especificações do Hardware (Protótipo Físico)
+
+O painel foi calibrado para ler e calcular a física de componentes reais. Para a montagem do protótipo integrado, recomenda-se:
+* **Microcontrolador:** ESP32 (NodeMCU) com suporte a BLE embutido.
+* **Refrigeração:** Pastilha Peltier (TEC1-12706) 12V (~70W de pico).
+* **Ventilação & Circulação:** Cooler 120mm PWM (Até 3200 RPM) e Mini Bomba Submersa 12V.
+* **Alimentação:** Pack de Bateria LiFePO4 12V 10Ah (120Wh).
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Front-end:** HTML5, CSS3 (Flexbox, Grid, CSS Variables), JavaScript (ES6 Modules).
-* **Back-end (BaaS):** Google Firebase (Authentication & Realtime Database).
-* **Bibliotecas:** * `Chart.js` (Gráficos).
-    * `FontAwesome` (Ícones).
-* **APIs Externas:** Open-Meteo (Clima).
+* **Front-end:** HTML5, CSS3 (Variáveis, Flexbox, Grid), JavaScript (Vanilla ES6+).
+* **Back-end (BaaS):** Google Firebase (Auth & Realtime DB).
+* **Bibliotecas:** Chart.js, FontAwesome.
+* **APIs:** Web Bluetooth API, Geolocation API, Open-Meteo API.
 
 ## 📂 Arquitetura do Projeto
-
-O código foi refatorado para seguir o padrão de **Separação de Responsabilidades (MVC-like)**:
 
 ```text
 /
 ├── css/
-│   ├── main.css          # Gerenciador de importações
-│   ├── base.css          # Variáveis de Cores e Temas (Light/Dark)
+│   ├── main.css          # Gerenciador de importações globais
+│   ├── base.css          # Variáveis de Cores e Temas (Light/Dark/Real Mode)
 │   ├── layout.css        # Estrutura Responsiva
 │   └── components.css    # Estilos de Cards, Modais e Botões
 ├── js/
-│   ├── main.js           # Ponto de entrada (Controller Principal)
-│   ├── config/           # Configurações do Firebase
-│   ├── models/           # Lógica de Negócio (Física do Sistema)
-│   ├── services/         # Comunicação (Auth, Database, Log, Weather, Notification)
-│   └── view/             # Manipulação do DOM (UI, Charts)
-└── index.html            # Estrutura SPA
-
-```
+│   ├── main.js           # Ponto de entrada (Controller Principal e Listeners)
+│   ├── config/           # Credenciais da Nuvem
+│   ├── models/           # Lógica de Negócio e Física do Sistema
+│   ├── services/         # Comunicação (Auth, DB, Logger, Weather, BLE)
+│   └── view/             # Manipulação isolada do DOM e Gráficos
+├── manifest.json         # Configurações do PWA
+├── sw.js                 # Service Worker (Cache e Offline)
+└── index.html            # Estrutura da Single Page Application (SPA)
+````
 
 ## 📸 Galeria
 
 | Dashboard (Dark Mode) | Novo Agendamento (Modal) |
 |:---:|:---:|
-| ![Dark](./assets/dark.png)  | ![Modal](./assets/agendamento.png)  |
+|  |  |
 
 | Modo Claro (Light Mode) | Gráficos & Logs |
 |:---:|:---:|
-| ![Light](./assets/graficos.png) | ![Graficos](./assets/logs.png) |
+|  |  |
 
 ## 🔧 Como Rodar o Projeto
 
-1. **Clone o repositório:**
-```bash
-git clone [https://github.com/SEU-USUARIO/hydrogen-pro.git](https://github.com/Danielzx1/hydrogen-pro.git)
+**Nota sobre Segurança:** Para testar a conexão Bluetooth e o GPS nativo, o navegador exige um contexto seguro. **Não é possível** testar a aplicação abrindo o arquivo `index.html` diretamente (via protocolo `file://`).
 
-```
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/Danielzx1/Projeto_Tcc.git](https://github.com/Danielzx1/Projeto_Tcc.git)
+    ```
+2.  **Inicie o Servidor:** Abra a pasta no VS Code e utilize a extensão **Live Server** (ou publique diretamente em uma host HTTPS, como Netlify).
+3.  **Credenciais:** O projeto requer um banco de dados ativo. Substitua as chaves no arquivo `js/config/firebaseConfig.js` pelas do seu projeto no Firebase Console.
 
+-----
 
-2. **Abra o projeto:**
-* Recomenda-se usar o **Live Server** do VS Code para evitar bloqueios de CORS nos Módulos ES6.
-
-
-3. **Configuração:**
-* O projeto já está configurado para conectar ao Firebase (verifique `js/config/firebaseConfig.js` se precisar alterar as chaves).
-
-
-
----
-
-Desenvolvido por **[Daniel Oliveira Silva]** 💻
-
-```
-
-
-```
-
+Desenvolvido por **Daniel Oliveira Silva** 💻
 
