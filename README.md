@@ -74,11 +74,11 @@ O painel foi calibrado para ler e calcular a física de componentes reais. Para 
 
 | Dashboard (Dark Mode) | Novo Agendamento (Modal) |
 |:---:|:---:|
-|  |  |
+| ![Dark](./assets/dark.png) | ![Modal](./assets/agendamento.png) |
 
 | Modo Claro (Light Mode) | Gráficos & Logs |
 |:---:|:---:|
-|  |  |
+| ![Light](./assets/Light.png) | ![Graficos](./assets/graficos.png) |
 
 ## 🔧 Como Rodar o Projeto
 
