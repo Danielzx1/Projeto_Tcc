@@ -1,9 +1,5 @@
 /* css/main.css */
 @import 'base.css';       /* Cores e Fontes */
 @import 'layout.css';     /* Estrutura da Página (Sidebar, Grid) */
-<<<<<<< HEAD
 @import 'components.css'; /* Botões, Cards, Inputs */
 
-=======
-@import 'components.css'; /* Botões, Cards, Inputs */
->>>>>>> beee574513c01d0b4649235436893f35e8cbb7cf

@@ -25,17 +25,6 @@
         </div>
     </div>
 
-    <div id="lgpd-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Termos de Uso & Privacidade</h2>
-            <p><strong>1. Coleta de Dados:</strong> O HydroGen Pro coleta apenas seu nome, e-mail e dados de simulação para funcionamento do sistema.</p>
-            <p><strong>2. Uso de Dados:</strong> Seus dados são utilizados exclusivamente para autenticação e personalização do dashboard.</p>
-            <p><strong>3. Armazenamento:</strong> Utilizamos o Google Firebase para armazenar suas informações de forma segura e criptografada.</p>
-            <p><strong>4. Consentimento:</strong> Ao se cadastrar, você concorda com o processamento destes dados conforme a Lei Geral de Proteção de Dados (LGPD).</p>
-            <button class="auth-btn modal-close-btn" id="close-lgpd">Entendi</button>
-        </div>
-    </div>
-
     <div id="auth-overlay" class="auth-overlay">
         <div class="auth-card">
             <div class="auth-header">
@@ -119,7 +108,6 @@
             <section id="view-settings" class="view-section">
                 <div class="dashboard-grid">
                     <div class="card">
-<<<<<<< HEAD
                         <h3>Dados Pessoais</h3><br>
                         <div class="settings-form">
                             <label>Nome Completo</label>
@@ -154,26 +142,6 @@
                         <h3>Histórico Recente</h3><br>
                         <div id="logs-container">Aguardando dados...</div>
                     </div>
-=======
-                        <h3>Editar Perfil</h3><br>
-                        <div class="settings-form">
-                            <label>Nome</label><div class="input-group"><i class="fa-solid fa-user-pen"></i><input type="text" id="edit-name"></div>
-                            <label style="margin-top: 10px;">Foto</label><div class="input-group"><i class="fa-solid fa-image"></i><input type="text" id="edit-photo"></div>
-                            <button class="auth-btn" id="btn-save-profile" style="margin-top: 20px;">Salvar</button>
-                        </div>
-                        <hr style="border:0; border-top:1px solid var(--border); margin: 20px 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <span><i class="fa-solid fa-moon"></i> Modo Escuro / Claro</span>
-                            <div class="toggle-switch active" id="btn-theme-toggle"></div>
-                        </div>
-                        <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="text" id="settings-email" disabled></div>
-                        <button class="auth-btn" style="background: #e74c3c; margin-top: 20px; width: 100%;" id="btn-logout">Sair</button>
-                    </div>
-                <div class="alguma-classe-sua" id="card-historico">
-    <h3>Histórico</h3>
-    <div id="logs-container">Carregando...</div>
-</div>
->>>>>>> beee574513c01d0b4649235436893f35e8cbb7cf
                 </div>
             </section>
 
@@ -205,23 +173,16 @@
                         <p id="radar-text" style="color: var(--text-dim);">Procurando dispositivos próximos...</p>
                     </div>
 
-                    <ul class="device-list" id="bt-device-list">
-                        </ul>
+                    <ul class="device-list" id="bt-device-list"></ul>
                 </div>
             </div>
 
-<<<<<<< HEAD
-</main>
+        </main>
     </div>
-
+    
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-
-=======
-        </main>
-    </div>
->>>>>>> beee574513c01d0b4649235436893f35e8cbb7cf
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

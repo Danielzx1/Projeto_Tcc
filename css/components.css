@@ -144,7 +144,6 @@
     .auth-card { width: 85%; padding: 30px 20px; }
     #btn-reset-metrics { bottom: 90px; right: 20px; }
     .floating-add-btn { bottom: 100px; right: 20px; }
-<<<<<<< HEAD
 }
 
 /* Correções Críticas do Tema Claro */
@@ -169,6 +168,4 @@ body.light-mode .device-item {
 }
 body.light-mode .device-item:hover {
     background: #dfe4ea;
-=======
->>>>>>> beee574513c01d0b4649235436893f35e8cbb7cf
 }

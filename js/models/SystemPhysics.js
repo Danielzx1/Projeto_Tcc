@@ -8,69 +8,69 @@ export class SystemPhysics {
         this.batteryCapacityWh = 120; // Bateria 12V 10Ah (120 Watts/Hora)
         this.tankCapacityMl = 500;    // Reservatório de 500ml
 
-        // Consumo em Watts de cada velocidade (ESP32 + Cooler + Bomba + Peltier)
+        // Consumo em Watts de cada velocidade
         this.wattValues = [0, 15, 25, 45, 70, 100];
 
-        // Gasto de Água em ml por HORA em cada velocidade (ex: evaporação/névoa)
+        // Gasto de Água em ml por HORA em cada velocidade
         this.waterUsagePerHour = [0, 5, 20, 50, 100, 200];
 
-        // ⚠️ MULTIPLICADOR DE TEMPO (Para testes)
-        // No mundo real, 1% de bateria demora minutos pra cair.
-        // Mude para 60 se quiser que 1 minuto passe em 1 segundo durante uma apresentação!
-        this.timeMultiplier = 1; 
+        // Inicia no modo Demo
+        this.isDemo = true; 
+    }
+
+    setDemoMode(isDemo) {
+        this.isDemo = isDemo;
     }
 
     startSimulation(isOn, speed, currentState, onUpdate) {
         this.stopSimulation();
 
         let { battery, water } = currentState;
-        // Previne erros se vier valores vazios do banco
         battery = typeof battery === 'number' ? battery : 100;
         water = typeof water === 'number' ? water : 0;
 
-        // Loop principal que roda a cada 1 segundo
         this.interval = setInterval(() => {
             if (!isOn) return;
 
-            const currentWatts = this.wattValues[speed];
-            const currentWaterRate = this.waterUsagePerHour[speed];
+            // ⏱️ AJUSTE DE VELOCIDADE: 120x (1s real = 2min simulados)
+            const multiplier = this.isDemo ? 120 : 1;
 
-            // 🔋 FÍSICA DA BATERIA
-            // Total de energia na bateria = 120Wh * 3600 segundos = 432.000 Joules
+            // 🔋 FÍSICA DA BATERIA (Sempre descarrega)
             const totalJoules = this.batteryCapacityWh * 3600;
-            // Energia gasta no último 1 segundo
-            const joulesConsumed = currentWatts * this.timeMultiplier;
-            // Quanto % isso representa da bateria inteira
+            const joulesConsumed = this.wattValues[speed] * multiplier;
             const batteryDropPercent = (joulesConsumed / totalJoules) * 100;
+            
+            battery = Math.max(0, battery - batteryDropPercent);
 
             // 💧 FÍSICA DA ÁGUA
-            // Converte ml/hora para ml/segundo
-            const mlConsumed = (currentWaterRate / 3600) * this.timeMultiplier;
-            // Quanto % isso representa do tanque de 500ml
-            const waterDropPercent = (mlConsumed / this.tankCapacityMl) * 100;
+            const mlChange = (this.waterUsagePerHour[speed] / 3600) * multiplier;
+            const waterChangePercent = (mlChange / this.tankCapacityMl) * 100;
 
-            // Atualiza os valores (garantindo que não passem de 0)
-            battery = Math.max(0, battery - batteryDropPercent);
-            water = Math.max(0, water - waterDropPercent);
+            if (this.isDemo) {
+                // MODO DEMO: Tanque ENCHE gradualmente
+                water += waterChangePercent;
+                if (water > 100) water = 0; 
+            } else {
+                // MODO REAL: Tanque ESVAZIA
+                water = Math.max(0, water - waterChangePercent);
+            }
 
-            // Se a bateria zerar, desliga o sistema automaticamente (Proteção BMS)
+            // Proteção BMS
             let autoPowerOff = isOn;
             if (battery <= 0) {
                 battery = 0;
                 autoPowerOff = false;
             }
 
-            // Envia os dados com 4 casas decimais para o gráfico não dar saltos bruscos
             onUpdate({
                 battery: Number(battery.toFixed(4)),
                 water: Number(water.toFixed(4)),
                 isOn: autoPowerOff
             });
 
-            // Para o loop interno se a bateria cortou o sistema
             if (!autoPowerOff) this.stopSimulation();
 
-        }, 1000); // 1000ms = 1 segundo real
+        }, 1000); 
     }
 
     stopSimulation() {
