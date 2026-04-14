@@ -144,4 +144,31 @@
     .auth-card { width: 85%; padding: 30px 20px; }
     #btn-reset-metrics { bottom: 90px; right: 20px; }
     .floating-add-btn { bottom: 100px; right: 20px; }
+<<<<<<< HEAD
+}
+
+/* Correções Críticas do Tema Claro */
+body.light-mode {
+    background-color: #f5f6fa;
+    color: #2f3640;
+}
+body.light-mode .card,
+body.light-mode .modal-content {
+    background: #ffffff;
+    border: 1px solid #dcdde1;
+    color: #2f3640;
+}
+body.light-mode .modal-content h3, 
+body.light-mode #radar-text {
+    color: #2f3640 !important;
+}
+body.light-mode .device-item {
+    background: #f1f2f6;
+    color: #2f3640;
+    border: 1px solid #dcdde1;
+}
+body.light-mode .device-item:hover {
+    background: #dfe4ea;
+=======
+>>>>>>> beee574513c01d0b4649235436893f35e8cbb7cf
 }
