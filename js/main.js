@@ -24,7 +24,8 @@ class App {
         this.tempHour = 12;
         this.tempMin = 0;
         
-        this.DEV_EMAIL = "daniel-oli55@hotmail.com"; 
+        // 🛑 SEU EMAIL DE DEV AQUI
+        this.DEV_EMAIL = "danieloliveirasilva@seuemail.com"; 
 
         this.init();
     }
@@ -291,6 +292,20 @@ class App {
                 document.getElementById(target).classList.add('active');
             });
         });
+
+        // --- LÓGICA DE TROCA DE TELAS (AQUI ESTAVA O PROBLEMA!) ---
+        document.getElementById('link-register')?.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            document.getElementById('login-form').classList.remove('active'); 
+            document.getElementById('register-form').classList.add('active'); 
+        });
+        
+        document.getElementById('link-login')?.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            document.getElementById('register-form').classList.remove('active'); 
+            document.getElementById('login-form').classList.add('active'); 
+        });
+        // ----------------------------------------------------------
 
         document.getElementById('login-form')?.addEventListener('submit', (e) => { e.preventDefault(); this.authService.login(document.getElementById('login-email').value, document.getElementById('login-pass').value).catch(err => alert(err.message)); });
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
