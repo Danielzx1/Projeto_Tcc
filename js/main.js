@@ -215,7 +215,7 @@ class App {
                     if (radarText) radarText.innerText = "Procurando dispositivos próximos...";
                     setTimeout(() => this.addFakeDevice('Xiaomi 14', 'fa-mobile-screen', false), 400);
                     setTimeout(() => this.addFakeDevice('Galaxy S24', 'fa-mobile-screen', false), 900);
-                    setTimeout(() => this.addFakeDevice('Hydrogen', 'fa-droplet', true), 1600);
+                    setTimeout(() => this.addFakeDevice('Mark II', 'fa-droplet', true), 1600);
                 }
             } else { 
                 this.state.bluetoothConnected = false; 
