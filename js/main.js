@@ -211,7 +211,7 @@ class App {
                 
                 if (this.isRealMode) {
                     if (radarText) radarText.innerText = "Buscando Hardware BLE...";
-                    this.addFakeDevice('Hydrogen (Hardware)', 'fa-microchip', true);
+                    this.addFakeDevice('Mark II', 'fa-microchip', true);
                 } else {
                     if (radarText) radarText.innerText = "Procurando dispositivos próximos...";
                     setTimeout(() => this.addFakeDevice('Xiaomi 14', 'fa-mobile-screen', false), 400);
