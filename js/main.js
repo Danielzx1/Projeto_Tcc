@@ -211,12 +211,12 @@ class App {
                 
                 if (this.isRealMode) {
                     if (radarText) radarText.innerText = "Buscando Hardware BLE...";
-                    this.addFakeDevice('Hydrogen (Hardware)', 'fa-microchip', true);
+                    this.addFakeDevice('Mark II', 'fa-microchip', true);
                 } else {
                     if (radarText) radarText.innerText = "Procurando dispositivos próximos...";
                     setTimeout(() => this.addFakeDevice('Xiaomi 14', 'fa-mobile-screen', false), 400);
                     setTimeout(() => this.addFakeDevice('Galaxy S24', 'fa-mobile-screen', false), 900);
-                    setTimeout(() => this.addFakeDevice('Hydrogen', 'fa-droplet', true), 1600);
+                    setTimeout(() => this.addFakeDevice('Mark II', 'fa-droplet', true), 1600);
                 }
             } else { 
                 this.state.bluetoothConnected = false; 
@@ -293,7 +293,7 @@ class App {
             });
         });
 
-        // --- LÓGICA DE TROCA DE TELAS (AQUI ESTAVA O PROBLEMA!) ---
+        // Troca de formulários Login/Registro
         document.getElementById('link-register')?.addEventListener('click', (e) => { 
             e.preventDefault(); 
             document.getElementById('login-form').classList.remove('active'); 
@@ -305,7 +305,12 @@ class App {
             document.getElementById('register-form').classList.remove('active'); 
             document.getElementById('login-form').classList.add('active'); 
         });
-        // ----------------------------------------------------------
+
+        // --- ⚖️ MODAL LGPD RESTAURADO ---
+        const modalLGPD = document.getElementById('lgpd-modal');
+        document.getElementById('open-lgpd')?.addEventListener('click', () => modalLGPD.classList.add('active'));
+        document.getElementById('close-lgpd')?.addEventListener('click', () => modalLGPD.classList.remove('active'));
+        // --------------------------------
 
         document.getElementById('login-form')?.addEventListener('submit', (e) => { e.preventDefault(); this.authService.login(document.getElementById('login-email').value, document.getElementById('login-pass').value).catch(err => alert(err.message)); });
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
