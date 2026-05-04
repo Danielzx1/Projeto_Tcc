@@ -20,7 +20,6 @@ class App {
 
         this.state = { bluetoothConnected: false, userData: null };
         this.isRealMode = false;
-        
         this.tempHour = 12;
         this.tempMin = 0;
         
@@ -211,12 +210,12 @@ class App {
                 
                 if (this.isRealMode) {
                     if (radarText) radarText.innerText = "Buscando Hardware BLE...";
-                    this.addFakeDevice('Mark II', 'fa-microchip', true);
+                    this.addFakeDevice('Hydrogen (Hardware)', 'fa-microchip', true);
                 } else {
                     if (radarText) radarText.innerText = "Procurando dispositivos próximos...";
                     setTimeout(() => this.addFakeDevice('Xiaomi 14', 'fa-mobile-screen', false), 400);
                     setTimeout(() => this.addFakeDevice('Galaxy S24', 'fa-mobile-screen', false), 900);
-                    setTimeout(() => this.addFakeDevice('Mark II', 'fa-droplet', true), 1600);
+                    setTimeout(() => this.addFakeDevice('Hydrogen', 'fa-droplet', true), 1600);
                 }
             } else { 
                 this.state.bluetoothConnected = false; 
@@ -293,7 +292,7 @@ class App {
             });
         });
 
-        // Troca de formulários Login/Registro
+        // Troca Login/Registro
         document.getElementById('link-register')?.addEventListener('click', (e) => { 
             e.preventDefault(); 
             document.getElementById('login-form').classList.remove('active'); 
@@ -306,11 +305,45 @@ class App {
             document.getElementById('login-form').classList.add('active'); 
         });
 
-        // --- ⚖️ MODAL LGPD RESTAURADO ---
+        // LGPD
         const modalLGPD = document.getElementById('lgpd-modal');
         document.getElementById('open-lgpd')?.addEventListener('click', () => modalLGPD.classList.add('active'));
         document.getElementById('close-lgpd')?.addEventListener('click', () => modalLGPD.classList.remove('active'));
-        // --------------------------------
+
+        // --- 🔑 LÓGICA DE RECUPERAÇÃO DE SENHA ---
+        const forgotModal = document.getElementById('forgot-pass-modal');
+        document.getElementById('link-forgot-pass')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            forgotModal.classList.add('active');
+        });
+        document.getElementById('close-forgot-modal')?.addEventListener('click', () => forgotModal.classList.remove('active'));
+
+        document.getElementById('btn-send-reset')?.addEventListener('click', () => {
+            const emailInput = document.getElementById('reset-email');
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                alert("Por favor, digite seu e-mail.");
+                return;
+            }
+
+            this.authService.resetPassword(email)
+                .then(() => {
+                    alert("Link de recuperação enviado com sucesso! Verifique sua caixa de entrada e o spam.");
+                    forgotModal.classList.remove('active');
+                    emailInput.value = ''; // Limpa o campo
+                })
+                .catch(err => {
+                    if (err.code === 'auth/user-not-found') {
+                        alert("Este e-mail não está cadastrado no sistema.");
+                    } else if (err.code === 'auth/invalid-email') {
+                        alert("Formato de e-mail inválido.");
+                    } else {
+                        alert("Erro ao enviar: " + err.message);
+                    }
+                });
+        });
+        // ------------------------------------------
 
         document.getElementById('login-form')?.addEventListener('submit', (e) => { e.preventDefault(); this.authService.login(document.getElementById('login-email').value, document.getElementById('login-pass').value).catch(err => alert(err.message)); });
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
