@@ -178,44 +178,84 @@ class App {
         const btModal = document.getElementById('modal-bluetooth');
         const btList = document.getElementById('bt-device-list');
         const radarText = document.getElementById('radar-text');
-        let pressTimer;
         
-        const startPress = () => {
-            pressTimer = setTimeout(() => {
-                this.isRealMode = !this.isRealMode;
-                this.physics.setDemoMode(!this.isRealMode);
-                
-                if (this.state.bluetoothConnected) {
-                    this.state.bluetoothConnected = false;
-                    this.updateBluetoothUI();
-                    const user = this.authService.getCurrentUser();
-                    if(user && this.state.userData?.system?.isOn) this.dbService.updateSystemData(user.uid, { isOn: false });
-                    if(this.state.userData) this.ui.renderDashboard(this.state.userData.system, false);
+        const simToggle = document.getElementById('toggle-sim-mode');
+        const simLabel = document.getElementById('sim-mode-label');
+
+        const toggleSimulationMode = () => {
+            this.isRealMode = !this.isRealMode;
+            this.physics.setDemoMode(!this.isRealMode);
+            
+            if (simToggle) {
+                simToggle.classList.toggle('active', !this.isRealMode);
+                if (this.isRealMode) {
+                    simLabel.innerText = "Mudar para: Demo";
+                    simLabel.style.color = "#e74c3c"; 
+                } else {
+                    simLabel.innerText = "Mudar para: Real";
+                    simLabel.style.color = "var(--primary)"; 
                 }
-                
-                document.body.classList.toggle('real-mode', this.isRealMode);
-                const btnReset = document.getElementById('btn-reset-metrics');
-                if(btnReset) btnReset.style.display = this.isRealMode ? 'none' : 'flex';
-                
-                alert(this.isRealMode ? "⚠️ MODO REAL (Física Ativada)" : "🧪 MODO DEMO (Acelerado 120x)");
-            }, 1500);
+            }
+
+            if (this.state.bluetoothConnected) {
+                this.state.bluetoothConnected = false;
+                this.updateBluetoothUI();
+                const user = this.authService.getCurrentUser();
+                if(user && this.state.userData?.system?.isOn) this.dbService.updateSystemData(user.uid, { isOn: false });
+                if(this.state.userData) this.ui.renderDashboard(this.state.userData.system, false);
+            }
+            
+            document.body.classList.toggle('real-mode', this.isRealMode);
+            const btnReset = document.getElementById('btn-reset-metrics');
+            if(btnReset) btnReset.style.display = this.isRealMode ? 'none' : 'flex';
+
+            btList.innerHTML = ''; 
+            if (this.isRealMode) {
+                if (radarText) radarText.innerText = "Buscando Hardware BLE...";
+                this.addFakeDevice('Hydrogen (Hardware)', 'fa-microchip', true);
+            } else {
+                if (radarText) radarText.innerText = "Procurando dispositivos próximos...";
+                setTimeout(() => this.addFakeDevice('Xiaomi 14', 'fa-mobile-screen', false), 400);
+                setTimeout(() => this.addFakeDevice('Galaxy S24', 'fa-mobile-screen', false), 900);
+                setTimeout(() => this.addFakeDevice('Hydrogen', 'fa-droplet', true), 1600);
+            }
         };
 
-        btnBt?.addEventListener('mousedown', startPress);
+        simToggle?.addEventListener('click', toggleSimulationMode);
+
+        let pressTimer;
+        let isLongPress = false;
+
+        btnBt?.addEventListener('mousedown', () => {
+            isLongPress = false;
+            pressTimer = setTimeout(() => {
+                isLongPress = true;
+                toggleSimulationMode();
+                alert(this.isRealMode ? "⚠️ MODO REAL (Física Ativada)" : "🧪 MODO DEMO (Acelerado 120x)");
+            }, 1500);
+        });
+        
         btnBt?.addEventListener('mouseup', () => clearTimeout(pressTimer));
-        btnBt?.addEventListener('click', () => {
+        btnBt?.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+
+        btnBt?.addEventListener('click', (e) => {
+            if (isLongPress) {
+                e.preventDefault();
+                return; 
+            }
+
             if (!this.state.bluetoothConnected) {
                 btModal.classList.add('active');
                 btList.innerHTML = ''; 
                 
                 if (this.isRealMode) {
                     if (radarText) radarText.innerText = "Buscando Hardware BLE...";
-                    this.addFakeDevice('Mark II', 'fa-microchip', true);
+                    this.addFakeDevice('Hydrogen (Hardware)', 'fa-microchip', true);
                 } else {
                     if (radarText) radarText.innerText = "Procurando dispositivos próximos...";
                     setTimeout(() => this.addFakeDevice('Xiaomi 14', 'fa-mobile-screen', false), 400);
                     setTimeout(() => this.addFakeDevice('Galaxy S24', 'fa-mobile-screen', false), 900);
-                    setTimeout(() => this.addFakeDevice('Mark II', 'fa-droplet', true), 1600);
+                    setTimeout(() => this.addFakeDevice('Hydrogen', 'fa-droplet', true), 1600);
                 }
             } else { 
                 this.state.bluetoothConnected = false; 
@@ -292,7 +332,6 @@ class App {
             });
         });
 
-        // Troca Login/Registro
         document.getElementById('link-register')?.addEventListener('click', (e) => { 
             e.preventDefault(); 
             document.getElementById('login-form').classList.remove('active'); 
@@ -305,45 +344,28 @@ class App {
             document.getElementById('login-form').classList.add('active'); 
         });
 
-        // LGPD
         const modalLGPD = document.getElementById('lgpd-modal');
         document.getElementById('open-lgpd')?.addEventListener('click', () => modalLGPD.classList.add('active'));
         document.getElementById('close-lgpd')?.addEventListener('click', () => modalLGPD.classList.remove('active'));
 
-        // --- 🔑 LÓGICA DE RECUPERAÇÃO DE SENHA ---
         const forgotModal = document.getElementById('forgot-pass-modal');
-        document.getElementById('link-forgot-pass')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            forgotModal.classList.add('active');
-        });
+        document.getElementById('link-forgot-pass')?.addEventListener('click', (e) => { e.preventDefault(); forgotModal.classList.add('active'); });
         document.getElementById('close-forgot-modal')?.addEventListener('click', () => forgotModal.classList.remove('active'));
 
         document.getElementById('btn-send-reset')?.addEventListener('click', () => {
             const emailInput = document.getElementById('reset-email');
             const email = emailInput.value.trim();
-            
-            if (!email) {
-                alert("Por favor, digite seu e-mail.");
-                return;
-            }
-
-            this.authService.resetPassword(email)
-                .then(() => {
-                    alert("Link de recuperação enviado com sucesso! Verifique sua caixa de entrada e o spam.");
-                    forgotModal.classList.remove('active');
-                    emailInput.value = ''; // Limpa o campo
-                })
-                .catch(err => {
-                    if (err.code === 'auth/user-not-found') {
-                        alert("Este e-mail não está cadastrado no sistema.");
-                    } else if (err.code === 'auth/invalid-email') {
-                        alert("Formato de e-mail inválido.");
-                    } else {
-                        alert("Erro ao enviar: " + err.message);
-                    }
-                });
+            if (!email) return alert("Por favor, digite seu e-mail.");
+            this.authService.resetPassword(email).then(() => {
+                alert("Link de recuperação enviado com sucesso!");
+                forgotModal.classList.remove('active');
+                emailInput.value = ''; 
+            }).catch(err => {
+                if (err.code === 'auth/user-not-found') alert("E-mail não cadastrado.");
+                else if (err.code === 'auth/invalid-email') alert("Formato de e-mail inválido.");
+                else alert("Erro ao enviar: " + err.message);
+            });
         });
-        // ------------------------------------------
 
         document.getElementById('login-form')?.addEventListener('submit', (e) => { e.preventDefault(); this.authService.login(document.getElementById('login-email').value, document.getElementById('login-pass').value).catch(err => alert(err.message)); });
         document.getElementById('register-form')?.addEventListener('submit', (e) => {

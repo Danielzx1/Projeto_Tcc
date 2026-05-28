@@ -11,6 +11,15 @@
     <meta name="theme-color" content="#050507">
     <link rel="apple-touch-icon" href="images/icon-192.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- REGRA EXCLUSIVA PARA ESCONDER O TOGGLE NO PC -->
+    <style>
+        @media (min-width: 769px) {
+            .mobile-only-toggle {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body class="light-mode">
 
@@ -51,11 +60,9 @@
                 <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="login-email" placeholder="E-mail" required></div>
                 <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="login-pass" placeholder="Senha" required></div>
                 <button type="submit" class="auth-btn">Entrar</button>
-                
                 <p class="switch-auth" style="margin-top: 15px;"><a href="#" id="link-forgot-pass">Esqueci minha senha</a></p>
                 <p class="switch-auth">Não tem conta? <a href="#" id="link-register">Criar conta</a></p>
             </form>
-
             <form id="register-form" class="auth-form">
                 <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" id="reg-name" placeholder="Nome Completo" required></div>
                 <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="reg-email" placeholder="E-mail" required></div>
@@ -130,13 +137,10 @@
                         <div class="settings-form">
                             <label>Nome Completo</label>
                             <div class="input-group"><i class="fa-solid fa-user-pen"></i><input type="text" id="edit-name"></div>
-                            
                             <label style="margin-top: 10px;">Foto (URL)</label>
                             <div class="input-group"><i class="fa-solid fa-image"></i><input type="text" id="edit-photo"></div>
-                            
                             <label style="margin-top: 10px;">E-mail</label>
                             <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="text" id="settings-email" disabled></div>
-                            
                             <button class="auth-btn" id="btn-save-profile" style="margin-top: 20px; width: 100%;">Salvar Perfil</button>
                         </div>
                     </div>
@@ -151,7 +155,6 @@
                             <span><i class="fa-solid fa-moon"></i> Forçar Modo Escuro</span>
                             <div class="toggle-switch" id="toggle-dark-mode"></div>
                         </div>
-                        
                         <hr style="border:0; border-top:1px solid var(--border); margin: 20px 0;">
                         <button class="auth-btn" style="background: #e74c3c; width: 100%;" id="btn-logout">Sair da Conta</button>
                     </div>
@@ -186,21 +189,21 @@
                         <button id="close-bt-modal"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                     
+                    <div class="mobile-only-toggle" style="display: flex; justify-content: flex-start; align-items: center; margin-top: -10px; margin-bottom: 20px; padding: 0 10px;">
+                        <div class="toggle-switch active" id="toggle-sim-mode"></div>
+                        <span id="sim-mode-label" style="margin-left: 10px; font-size: 0.85rem; font-weight: bold; color: var(--primary);">Mudar para: Real</span>
+                    </div>
+
                     <div class="scanning-animation">
                         <div class="radar"></div>
                         <p id="radar-text" style="color: var(--text-dim);">Procurando dispositivos próximos...</p>
                     </div>
-
                     <ul class="device-list" id="bt-device-list"></ul>
                 </div>
             </div>
-
         </main>
     </div>
     
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

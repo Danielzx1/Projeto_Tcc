@@ -169,3 +169,10 @@ body.light-mode .device-item {
 body.light-mode .device-item:hover {
     background: #dfe4ea;
 }
+
+/* Esconde o toggle de Modo Demo/Real em telas de PC (Mantém só no celular) */
+@media (min-width: 769px) {
+    .mobile-only-toggle {
+        display: none !important;
+    }
+}
